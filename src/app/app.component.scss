@@ -1,3 +1,23 @@
 .example-spacer {
     flex: 1 1 auto;
 }
+
+.main-body {
+    padding-top: 20px;
+    margin: 0 auto;
+    max-width: 1248px;
+
+    mat-form-field {
+        width: 100%;
+    }
+}
+
+.action-buttons {
+    display: flex;
+    flex-direction: row;
+}
+
+.action-buttons button {
+    margin-right: 2px;
+    /* Adjust as needed for spacing */
+}

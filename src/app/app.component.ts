@@ -11,6 +11,7 @@ import { MatSort, MatSortModule } from '@angular/material/sort';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
+import { CurrencyPipe, DatePipe } from '@angular/common';
 @Component({
   selector: 'app-root',
   standalone: true,
@@ -23,7 +24,9 @@ import { MatFormFieldModule } from '@angular/material/form-field';
     MatInputModule,
     MatFormFieldModule,
     MatSortModule,
-    MatPaginatorModule
+    MatPaginatorModule,
+    DatePipe,
+    CurrencyPipe
   ],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss'
@@ -39,7 +42,8 @@ export class AppComponent implements OnInit {
     'education',
     'company',
     'experience',
-    'package'
+    'package',
+    'action'
   ];
   dataSource!: MatTableDataSource<any>;
 
@@ -76,6 +80,17 @@ export class AppComponent implements OnInit {
     if (this.dataSource.paginator) {
       this.dataSource.paginator.firstPage();
     }
+  }
+
+  deleteEmployee(id: any) {
+    this._empService.deleteEmployees(id).subscribe({
+      next: (res: any) => {
+        console.log(res);
+      },
+      error: (error: any) => {
+        console.log(error);
+      }
+    });
   }
 
   ngOnInit(): void {

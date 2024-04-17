@@ -15,4 +15,8 @@ export class EmployeeService {
   getEmployees() {
     return this._http.get('http://localhost:3000/employees');
   }
+
+  deleteEmployees(id: any) {
+    return this._http.delete(`http://localhost:3000/employees/${id}`);
+  }
 }
