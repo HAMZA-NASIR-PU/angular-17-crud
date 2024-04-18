@@ -63,7 +63,7 @@ export class AppComponent implements OnInit {
         // console.log(res);
         this.dataSource = new MatTableDataSource(res);
         this.dataSource.sort = this.sort;
-        this.dataSource.paginator = this.paginator;
+        this.dataSource.paginator = this.paginator; 
       },
       error: (error: any) => console.log(error)
     });
