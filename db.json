@@ -26,30 +26,5 @@
   "profile": {
     "name": "typicode"
   },
-  "employees": [
-    {
-      "id": "50b2",
-      "firstName": "asa",
-      "lastName": "asas",
-      "email": "asas",
-      "dob": "2024-04-16T19:00:00.000Z",
-      "gender": "",
-      "education": "post_graduate",
-      "company": "sasadd",
-      "experience": 12,
-      "package": 311212
-    },
-    {
-      "id": "1a1e",
-      "firstName": "Hamza",
-      "lastName": "Nasir",
-      "email": "hamza@email.com",
-      "dob": "2024-04-16T19:00:00.000Z",
-      "gender": "male",
-      "education": "diploma",
-      "company": "Volstream",
-      "experience": 56,
-      "package": 56565
-    }
-  ]
+  "employees": []
 }

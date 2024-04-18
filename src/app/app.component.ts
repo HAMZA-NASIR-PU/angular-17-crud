@@ -70,7 +70,14 @@ export class AppComponent implements OnInit {
   }
 
   openAddEditEmpForm() {
-    this._dialog.open(EmpAddEditComponent);
+    const dialogRef = this._dialog.open(EmpAddEditComponent);
+    dialogRef.afterClosed().subscribe({
+      next: (val: any) => {
+        if (val == true) {
+          this.getEmployeeList();
+        }
+      }
+    });
   }
 
   applyFilter(event: Event) {
@@ -85,7 +92,9 @@ export class AppComponent implements OnInit {
   deleteEmployee(id: any) {
     this._empService.deleteEmployees(id).subscribe({
       next: (res: any) => {
-        console.log(res);
+        // console.log(res);
+        alert("Employee Deleted Successfully...");
+        this.getEmployeeList();
       },
       error: (error: any) => {
         console.log(error);

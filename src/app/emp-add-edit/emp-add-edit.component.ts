@@ -69,7 +69,7 @@ export class EmpAddEditComponent {
   }
 
   closeDialog() {
-    this.dialogRef.close('Pizza!');
+    this.dialogRef.close();
   }
 
   onFormSubmit() {
@@ -77,9 +77,9 @@ export class EmpAddEditComponent {
       console.log(this.empForm.value);
       this._empService.addEmployee(this.empForm.value).subscribe({
         next: (val: any) => {
-          console.log(val);
-          console.log("Employee addedd successfully...");
-          this.closeDialog();
+          // console.log(val);
+          alert("Employee Deleted Successfully...");
+          this.dialogRef.close(true);
         },
         error: (error: any) => {
           console.log(error);
