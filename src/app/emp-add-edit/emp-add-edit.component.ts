@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Inject, OnInit } from '@angular/core';
 import {
   MatDialog,
   MAT_DIALOG_DATA,
@@ -17,6 +17,7 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatRadioModule } from '@angular/material/radio';
 import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { EmployeeService } from '../services/employee.service';
+import { CoreService } from '../services/core.service';
 @Component({
   selector: 'app-emp-add-edit',
   standalone: true,
@@ -37,7 +38,7 @@ import { EmployeeService } from '../services/employee.service';
   styleUrl: './emp-add-edit.component.scss',
   providers: [provideNativeDateAdapter()]
 })
-export class EmpAddEditComponent {
+export class EmpAddEditComponent implements OnInit {
 
   empForm: FormGroup;
 
@@ -53,7 +54,9 @@ export class EmpAddEditComponent {
   constructor(
     public dialogRef: MatDialogRef<EmpAddEditComponent>,
     private _fb: FormBuilder,
-    private _empService: EmployeeService
+    private _empService: EmployeeService,
+    @Inject(MAT_DIALOG_DATA) public data: any,
+    private _coreService: CoreService
   ) {
     this.empForm = this._fb.group({
       firstName: '',
@@ -73,22 +76,47 @@ export class EmpAddEditComponent {
   }
 
   onFormSubmit() {
+    console.log("Form Submitted");
     if (this.empForm.valid) {
-      console.log(this.empForm.value);
-      this._empService.addEmployee(this.empForm.value).subscribe({
-        next: (val: any) => {
-          // console.log(val);
-          alert("Employee Added Successfully...");
-          this.dialogRef.close(true);
-        },
-        error: (error: any) => {
-          console.log(error);
-        }
-      });
+      // console.log(this.empForm.value);
+
+      if (this.data) {
+        this._empService.updateEmployee(this.data.id, this.empForm.value).subscribe({
+          next: (val: any) => {
+            // console.log(val);
+            // alert("Employee Updated!");
+            this._coreService.openSnackBar('Employee Updated!', 'Close');
+
+            this.dialogRef.close(true);
+          },
+          error: (error: any) => {
+            console.log(error);
+          }
+        });
+
+      } else {
+        this._empService.addEmployee(this.empForm.value).subscribe({
+          next: (val: any) => {
+            // console.log(val);
+            // alert("Employee Added!");
+            this._coreService.openSnackBar('Employee Added!', 'Close');
+
+            this.dialogRef.close(true);
+          },
+          error: (error: any) => {
+            console.log(error);
+          }
+        });
+      }
+
     } else {
       this.closeDialog();
       console.log("Form validation failed.");
     }
+  }
+
+  ngOnInit(): void {
+    this.empForm.patchValue(this.data);
   }
 
 }

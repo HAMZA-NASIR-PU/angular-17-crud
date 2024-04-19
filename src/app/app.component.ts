@@ -12,6 +12,7 @@ import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { CurrencyPipe, DatePipe } from '@angular/common';
+import { CoreService } from './services/core.service';
 @Component({
   selector: 'app-root',
   standalone: true,
@@ -52,7 +53,8 @@ export class AppComponent implements OnInit {
 
   constructor(
     private _dialog: MatDialog,
-    private _empService: EmployeeService
+    private _empService: EmployeeService,
+    private _coreService: CoreService
   ) {
 
   }
@@ -63,7 +65,7 @@ export class AppComponent implements OnInit {
         // console.log(res);
         this.dataSource = new MatTableDataSource(res);
         this.dataSource.sort = this.sort;
-        this.dataSource.paginator = this.paginator; 
+        this.dataSource.paginator = this.paginator;
       },
       error: (error: any) => console.log(error)
     });
@@ -93,11 +95,25 @@ export class AppComponent implements OnInit {
     this._empService.deleteEmployees(id).subscribe({
       next: (res: any) => {
         // console.log(res);
-        alert("Employee Deleted Successfully...");
+        // alert("Employee Deleted Successfully...");
+        this._coreService.openSnackBar('Employee Deleted!', 'Close');
         this.getEmployeeList();
       },
       error: (error: any) => {
         console.log(error);
+      }
+    });
+  }
+
+  openEditEmpForm(data: any) {
+    const dialogRef = this._dialog.open(EmpAddEditComponent, {
+      data
+    });
+    dialogRef.afterClosed().subscribe({
+      next: (val: any) => {
+        if (val == true) {
+          this.getEmployeeList();
+        }
       }
     });
   }
